@@ -1,0 +1,90 @@
+diff --git a/arch/Config.in b/arch/Config.in
+index 50377a9..8e61f30 100644
+--- a/arch/Config.in
++++ b/arch/Config.in
+@@ -231,6 +231,13 @@ config BR2_sparc64
+ 	  http://www.oracle.com/sun
+ 	  http://en.wikipedia.org/wiki/Sparc
+ 
++config BR2_wasm
++	bool "webassembly"
++	select BR2_ARCH_HAS_MMU_MANDATORY
++	help
++	  Webassembly is a javascript bytecode standard.
++	  http://webassembly.org
++
+ config BR2_x86_64
+ 	bool "x86_64"
+ 	select BR2_ARCH_IS_64
+@@ -419,6 +426,10 @@ if BR2_sparc || BR2_sparc64
+ source "arch/Config.in.sparc"
+ endif
+ 
++if BR2_wasm
++source "arch/Config.in.wasm"
++endif
++
+ if BR2_i386 || BR2_x86_64
+ source "arch/Config.in.x86"
+ endif
+diff --git a/package/pkg-autotools.mk b/package/pkg-autotools.mk
+index e215382..b851f70 100644
+--- a/package/pkg-autotools.mk
++++ b/package/pkg-autotools.mk
+@@ -183,6 +183,7 @@ define $(2)_CONFIGURE_CMDS
+ 	$$(TARGET_CONFIGURE_ARGS) \
+ 	$$($$(PKG)_CONF_ENV) \
+ 	CONFIG_SITE=/dev/null \
++	emconfigure \
+ 	./configure \
+ 		--target=$$(GNU_TARGET_NAME) \
+ 		--host=$$(GNU_TARGET_NAME) \
+@@ -219,6 +220,7 @@ define $(2)_CONFIGURE_CMDS
+ 	LDFLAGS="$$(HOST_LDFLAGS)" \
+ 	$$($$(PKG)_CONF_ENV) \
+ 	CONFIG_SITE=/dev/null \
++	emconfigure \
+ 	./configure \
+ 		--prefix="$$(HOST_DIR)/usr" \
+ 		--sysconfdir="$$(HOST_DIR)/etc" \
+diff --git a/support/gnuconfig/config.sub b/support/gnuconfig/config.sub
+index 6d86a1e..cb10b98 100755
+--- a/support/gnuconfig/config.sub
++++ b/support/gnuconfig/config.sub
+@@ -1241,6 +1241,10 @@ case $basic_machine in
+ 		basic_machine=hppa1.1-winbond
+ 		os=-proelf
+ 		;;
++	wasm-*)
++		basic_machine=wasm-unknown
++		os=-none
++		;;
+ 	xbox)
+ 		basic_machine=i686-pc
+ 		os=-mingw32
+diff --git a/toolchain/toolchain-external/pkg-toolchain-external.mk b/toolchain/toolchain-external/pkg-toolchain-external.mk
+index 856be65..a7ee7f2 100644
+--- a/toolchain/toolchain-external/pkg-toolchain-external.mk
++++ b/toolchain/toolchain-external/pkg-toolchain-external.mk
+@@ -246,6 +246,9 @@ endif
+ # match the *cc-* pattern. Therefore, an additional case is added for *-ar,
+ # *-ranlib and *-nm.
+ define TOOLCHAIN_EXTERNAL_INSTALL_WRAPPER
++	echo TOOLCHAIN_EXTERNAL_INSTALL_WRAPPER
++	echo TOOLCHAIN_EXTERNAL_INSTALL_WRAPPER
++	echo TOOLCHAIN_EXTERNAL_INSTALL_WRAPPER
+ 	$(Q)cd $(HOST_DIR)/usr/bin; \
+ 	for i in $(TOOLCHAIN_EXTERNAL_CROSS)*; do \
+ 		base=$${i##*/}; \
+@@ -436,6 +439,11 @@ define TOOLCHAIN_EXTERNAL_INSTALL_SYSROOT_LIBS
+ 		ARCH_SUBDIR=`echo $${ARCH_SYSROOT_DIR} | sed -r -e "s:^$${SYSROOT_DIR}(.*)/$$:\1:"` ; \
+ 	fi ; \
+ 	$(call MESSAGE,"Copying external toolchain sysroot to staging...") ; \
++	$(call MESSAGE,$(SYSROOT_DIR)) ; \
++	$(call MESSAGE,$(ARCH_SYSROOT_DIR)) ; \
++	$(call MESSAGE,$(ARCH_SUBDIR)) ; \
++	$(call MESSAGE,$(ARCH_LIB_DIR)) ; \
++	$(call MESSAGE,$(SUPPORT_LIB_DIR)) ; \
+ 	$(call copy_toolchain_sysroot,$${SYSROOT_DIR},$${ARCH_SYSROOT_DIR},$${ARCH_SUBDIR},$${ARCH_LIB_DIR},$${SUPPORT_LIB_DIR})
+ endef
+ 

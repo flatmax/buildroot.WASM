@@ -1,4 +1,8 @@
 
+# buildroot repo setup
+
+First clone buildroot then apply the buildroot.wasm.diff file. It would be better to not alter the original buildroot repo, but some stuff has to be added.
+
 # clang setup
 source ./clangSetup.sh
 # buildroot setup
