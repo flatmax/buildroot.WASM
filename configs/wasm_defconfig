@@ -1,0 +1,53 @@
+BR2_CMAKE="emcmake cmake"
+TARGET_MAKE_ENV=emmake
+TARGET_CONFIGURE_OPTS=emconfigure
+
+BR2_DL_DIR="$(BASE_DIR)/../../buildroot.dl"
+
+BR2_wasm=y
+BR2_ARCH="wasm"
+
+BR2_READELF_ARCH_NAME="webassembly emsdk"
+BR2_BINFMT_ELF=y
+
+#BR2_LINUX_KERNEL=y
+BR2_TARGET_UBOOT=n
+BR2_PACKAGE_EIGEN_UNSUPPORTED_MODULES=y
+
+BR2_TOOLCHAIN=y
+BR2_TOOLCHAIN_USES_MUSL=y
+BR2_TOOLCHAIN_EXTERNAL=y
+
+BR2_TOOLCHAIN_EXTERNAL_CUSTOM=y
+BR2_TOOLCHAIN_EXTERNAL_PREINSTALLED=y
+BR2_TOOLCHAIN_EXTERNAL_PATH="/usr/local/emsdk-portable/clang/e1.38.20_64bit"
+BR2_TOOLCHAIN_EXTERNAL_MUSL=y
+BR2_TOOLCHAIN_EXTERNAL_HAS_SSP=y
+#BR2_TOOLCHAIN_EXTERNAL_CUSTOM_MUSL=y
+BR2_TOOLCHAIN_EXTERNAL_CXX=y
+
+BR2_TOOLCHAIN_EXTERNAL_CUSTOM_PREFIX="temp"
+BR2_TOOLCHAIN_EXTERNAL_HEADERS_4_8=y
+BR2_TOOLCHAIN_EXTERNAL_GCC_OLD=y
+
+#BR2_TOOLCHAIN_EXTERNAL_PREFIX="../clang"
+#BR2_TOOLCHAIN_EXTERNAL_C=clang
+#BR2_STATIC_LIBS=
+#BR2_TOOLCHAIN_EXTERNAL_PREFIX="/usr/local/emsdk-portable/emscripten/1.37.9/system/"
+#BR2_TOOLCHAIN_EXTERNAL_CUSTOM_PREFIX="/usr/local/emsdk-portable/emscripten/1.37.9/system/"
+
+BR2_DEBUG_WRAPPER=2
+
+BR2_LINUX_KERNEL=n
+#BR2_LINUX_KERNEL_CUSTOM_VERSION=y
+#BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE="4.9.6"
+#BR2_LINUX_KERNEL_USE_CUSTOM_CONFIG=y
+#BR2_LINUX_KERNEL_CUSTOM_CONFIG_FILE="board/qemu/arm-versatile/linux-4.9.config"
+#BR2_LINUX_KERNEL_DTS_SUPPORT=y
+#BR2_LINUX_KERNEL_INTREE_DTS_NAME="versatile-pb"
+
+# echo '' > /home/flatmax.unencrypted/buildroot.webassembly/output/build/skeleton/.stamp_target_installed
+# echo '' > /home/flatmax.unencrypted/buildroot.webassembly/output/build/toolchain-external-custom/.stamp_configured
+# echo '' > /home/flatmax.unencrypted/buildroot.webassembly/output/build/toolchain-external-custom/.stamp_target_installed
+# echo '' > /home/flatmax.unencrypted/buildroot.webassembly/output/build/toolchain-external/.stamp_target_installed
+# echo '' > /home/flatmax.unencrypted/buildroot.webassembly/output/build/toolchain/.stamp_target_installed
